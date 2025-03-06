@@ -1,0 +1,1 @@
+from .user_functions.register_functions import check_requested_info, respond_missing_info, check_duplicity, check_email_validity
