@@ -1,7 +1,7 @@
-import asyncio
-
 from db import check_db_connection
 from routes.auth_routes import router as auth_router
+
+import asyncio
 
 from fastapi import FastAPI
 import uvicorn

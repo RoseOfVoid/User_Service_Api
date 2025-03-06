@@ -11,3 +11,4 @@ async def get_user_db():
         yield db
     finally:
         await db.close()
+

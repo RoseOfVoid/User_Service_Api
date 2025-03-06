@@ -1,32 +1,22 @@
-import re
+from db.models import User
+from db import get_user_db
+from db.connect import engine
 
-from fastapi import HTTPException
-
-
-def check_requested_info(params:dict) -> list | None:
-    necesary_info=['username', 'password', 'email']
-    missing_info=[]
-    for info in necesary_info:
-        if info not in params.keys():
-            missing_info.append(info)
-
-    return missing_info
+from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends, Response
 
 
-def respond_missing_info(missing_params:list) -> HTTPException:
-    error_message = "You must include your: "
-    for param in missing_params:
-        error_message += f"{param}, "
-
-    return HTTPException(status_code=400, detail=error_message) #TODO: Repair respoce
-
-
-def check_email_validity(email:str) -> bool:
-    if re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
-        return True
-    return False
-
-
-def check_duplicity(params:dict) -> bool:
-    #TODO: Connect to DB and check for duplicity
-    return False
+async def register_user_to_db(data: dict):
+    try:
+        async for db in get_user_db():
+            new_user = User(username=data['username'],
+                            email=data['email'],
+                            password=data['password'],
+                            role="USER",
+                            status="ACTIVE")
+            db.add(new_user)
+            await db.commit()
+            await db.refresh(new_user)
+            return {"Success": f"New user {data['username']} created"}
+    except Exception as e:
+        return {"Error": str(e)}
