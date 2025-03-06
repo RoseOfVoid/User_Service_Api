@@ -1,2 +1,2 @@
-from user import User
-from user import Base as UserBase
+from .user import User
+from .user import Base as UserBase

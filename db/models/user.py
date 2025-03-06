@@ -1,7 +1,19 @@
-from sqlalchemy import Column, Integer, String
+import enum
+from sqlalchemy import Column, Integer, String, Enum, DateTime, func
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
+
+
+class Status(enum.Enum):
+    ACTIVE = "ACTIVE"
+    UNAUTHORIZED = "UNAUTHORIZED"
+    BANNED = "BANNED"
+
+
+class Role(enum.Enum):
+    ADMIN = "ADMIN"
+    USER = "USER"
 
 
 class User(Base):
@@ -10,3 +22,6 @@ class User(Base):
     username = Column(String(50), unique=True, nullable=False)
     password = Column(String(100), nullable=False)
     email = Column(String(50), nullable=False)
+    role = Column(Enum(Role), name="role")
+    status = Column(Enum(Status), name="status")
+    created = Column(DateTime(timezone=True), server_default=func.now())
