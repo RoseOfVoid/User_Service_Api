@@ -21,4 +21,4 @@ async def register_user_function(request: Request):
 async def login_user_function(request: Request):
     params = dict(request.headers)
     await check_login_info(params)
-    await login_user(data=params)
+    return await login_user(data=params)
