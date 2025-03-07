@@ -1,5 +1,13 @@
-from werkzeug.security import generate_password_hash
+from auth.token import bcrypt_context
+from fastapi import HTTPException
 
 
-def hash_password(password):
-    return generate_password_hash(password=password, salt_length=8)
+def hash_password(password: str) -> str:
+    hash_pw = bcrypt_context.hash(password)
+    print(hash_pw)
+    return hash_pw
+
+
+async def check_password(password: str, hashed_password: str) -> None:
+    if not bcrypt_context.verify(password, hashed_password):
+        raise HTTPException(status_code=403, detail="Incorrect password")
