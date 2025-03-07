@@ -24,4 +24,4 @@ class User(Base):
     email = Column(String(50), nullable=False)
     role = Column(Enum(Role), name="role")
     status = Column(Enum(Status), name="status")
-    created = Column(DateTime(timezone=True), server_default=func.now())
+    created = Column(DateTime, nullable=False, default=func.now())

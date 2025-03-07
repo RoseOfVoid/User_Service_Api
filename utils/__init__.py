@@ -1,2 +1,2 @@
-from .user_functions.validation_functions import check_requested_info, respond_missing_info, check_duplicity, check_email_validity
-from .user_functions.register_functions import register_user_to_db
+from .user_functions.validation_functions import (check_requested_info, respond_missing_info, check_duplicity,
+                                                  check_email_validity)
