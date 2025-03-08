@@ -14,6 +14,8 @@ async def login_user(data: dict):
         if not user_to_login:
             raise HTTPException(status_code=404, detail="User not found")
         await check_password(data['password'], user_to_login.password)
+        if user_to_login.get_status == "BANNED":
+            raise HTTPException(status_code=403, detail="User is banned")
         access_token = create_access_token(data={"sub": str(user_to_login.id),
                                                  "username": str(user_to_login.username)
                                                  })
