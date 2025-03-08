@@ -1,7 +1,10 @@
 from db import check_db_connection
 from routes.auth_routes import router as auth_router
+from routes.root_routes import router as root_router
+from utils import execute_params
 
 import asyncio
+import sys
 
 from fastapi import FastAPI
 import uvicorn
@@ -9,6 +12,7 @@ import uvicorn
 app = FastAPI()
 
 app.include_router(auth_router)
+app.include_router(root_router)
 
 
 async def main():
@@ -17,4 +21,8 @@ async def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    if len(sys.argv) > 1:
+        execute_params(param=sys.argv[1])
+    else:
+        asyncio.run(main())
+

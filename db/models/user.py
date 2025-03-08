@@ -11,7 +11,7 @@ class Status(enum.Enum):
     BANNED = "BANNED"
 
 
-class Role(enum.Enum):
+class Role(enum.IntEnum):
     ROOT = 0
     ADMIN = 1
     USER = 2

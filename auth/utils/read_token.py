@@ -18,4 +18,6 @@ async def get_user_from_token(token: str = Depends(oauth2_bearer)):
         raise HTTPException(status_code=401, detail="Invalid token")
 
     user_db = await find_user_by_id(user_id)
+    if not user_db:
+        raise HTTPException(status_code=404, detail="User not found")
     return convert_user_from_db(user_db)
