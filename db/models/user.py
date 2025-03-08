@@ -26,3 +26,8 @@ class User(Base):
     status = Column(Enum(Status), name="status")
     created = Column(DateTime, nullable=False, default=func.now())
 
+    def get_role(self) -> str:
+        return self.role.value
+
+    def get_status(self) -> str:
+        return self.status.value
