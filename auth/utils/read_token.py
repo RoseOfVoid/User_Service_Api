@@ -20,4 +20,6 @@ async def get_user_from_token(token: str = Depends(oauth2_bearer)):
     user_db = await find_user_by_id(user_id)
     if not user_db:
         raise HTTPException(status_code=404, detail="User not found")
+    if user_db.get_status() == "BANNED":
+        raise HTTPException(status_code=403, detail="User is banned")
     return convert_user_from_db(user_db)
