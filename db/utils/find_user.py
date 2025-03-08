@@ -12,8 +12,4 @@ async def find_user_by_id(requested_id: str):
         user = result.scalars().first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-        return UserBase(id=int(user.id),
-                        username=str(user.username),
-                        email=str(user.email),
-                        role=str(user.get_role()),
-                        status=str(user.get_status()))
+        return user

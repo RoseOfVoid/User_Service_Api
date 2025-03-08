@@ -12,8 +12,9 @@ class Status(enum.Enum):
 
 
 class Role(enum.Enum):
-    ADMIN = "ADMIN"
-    USER = "USER"
+    ROOT = 0
+    ADMIN = 1
+    USER = 2
 
 
 class User(Base):
@@ -30,4 +31,4 @@ class User(Base):
         return self.role.value
 
     def get_status(self) -> str:
-        return self.status.value
+        return str(self.status.value)

@@ -1,5 +1,6 @@
 from auth.settings import oauth2_bearer, ALGORITHM
 from db.utils import find_user_by_id
+from auth.utils.prepare_user_from_db import convert_user_from_db
 
 import os
 
@@ -16,4 +17,5 @@ async def get_user_from_token(token: str = Depends(oauth2_bearer)):
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-    return await find_user_by_id(user_id)
+    user_db = await find_user_by_id(user_id)
+    return convert_user_from_db(user_db)
